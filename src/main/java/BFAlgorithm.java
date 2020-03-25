@@ -1,22 +1,23 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
-public class BellmanFord {
+public class BFAlgorithm {
     private List<Vertex> vertexList;
     private List<Edge> edgeList;
-    private List<Vertex> cycleList;
+    private List<List<Vertex>> cycleLists;
 
-    public BellmanFord(List<Edge> edgeList, List<Vertex> vertexList) {
+    public BFAlgorithm(List<Edge> edgeList, List<Vertex> vertexList) {
         this.vertexList = vertexList;
         this.edgeList = edgeList;
-        this.cycleList = new ArrayList<>();
+        this.cycleLists = new ArrayList<>();
     }
 
     public void findArbitrage(Vertex sourceVertex) {
         sourceVertex.setMinDistance(0);
 
-        for (int i = 0; i < this.vertexList.size() - 1; ++i) {
-            for (Edge edge : this.edgeList) {
+        for (int i = 0; i < vertexList.size() - 1; ++i) {
+            for (Edge edge : edgeList) {
 
                 if (edge.getStartVertex().getMinDistance() == Double.MAX_VALUE) {
                     continue;
@@ -31,38 +32,43 @@ public class BellmanFord {
             }
         }
 
-        for (Edge edge : this.edgeList) {
+        for (Edge edge : edgeList) {
             if (edge.getStartVertex().getMinDistance() != Double.MAX_VALUE) {
+                List<Vertex> cycleList = new ArrayList<>();
                 if (hasCycle(edge)) {
                     Vertex vertex = edge.getStartVertex();
                     while (!vertex.equals(edge.getTargetVertex())) {
-                        this.cycleList.add(vertex);
+                        cycleList.add(vertex);
                         vertex = vertex.getPreviousVertex();
+                        if (vertex == null) {
+                            break;
+                        }
                     }
-                    this.cycleList.add(edge.getTargetVertex());
+                    cycleList.add(edge.getTargetVertex());
 
-                    return;
+                    //return;
+                }
+                if (!cycleList.isEmpty()) {
+                    cycleLists.add(cycleList);
                 }
             }
         }
-
-//        if (targetVertex.getMinDistance() == Double.MAX_VALUE) {
-//            System.out.println("There is no path at all to target from source...");
-//        } else {
-//            System.out.println("Shortest path is: " + targetVertex.getMinDistance());
-//        }
-
     }
 
     private boolean hasCycle(Edge edge) {
-        return (edge.getStartVertex().getMinDistance() + edge.getWeight()) < edge.getTargetVertex().getMinDistance();
+        return (edge.getStartVertex().getMinDistance() + edge.getWeight()) > edge.getTargetVertex().getMinDistance();
     }
 
     public void printCycle() {
-        if (!this.cycleList.isEmpty()) {
-            System.out.println("Detected!");
-            for (Vertex vertex : cycleList) {
-                System.out.println(vertex);
+        if (!this.cycleLists.isEmpty()) {
+            for (List<Vertex> list: cycleLists) {
+                if (!list.isEmpty()) {
+                    System.out.println("Detected!");
+                    for (Vertex vertex : list) {
+                        System.out.println(vertex.getName());
+                    }
+                    System.out.println("\n");
+                }
             }
         } else {
             System.out.println("Not found!");
