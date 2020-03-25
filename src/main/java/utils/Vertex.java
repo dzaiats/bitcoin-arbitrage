@@ -1,3 +1,5 @@
+package utils;
+
 public class Vertex {
     private String name;
     private double minDistance = Double.MAX_VALUE;

@@ -1,14 +1,19 @@
+package algorithms;
+
 import org.json.JSONObject;
 import org.junit.Test;
+import utils.Edge;
+import utils.HTTPClient;
+import utils.Vertex;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class GraphTestIterative {
+public class ArbitrageConverterIterativeTest {
     @Test
-    public void testGraphCanBeCreated() throws IOException {
+    public void findArbitrage() throws IOException, InterruptedException {
         List<Vertex> vertexList = new ArrayList<>();
 
         vertexList.add(new Vertex("USD"));
@@ -22,7 +27,7 @@ public class GraphTestIterative {
                 "BTC", vertexList.get(3)
         );
 
-        for (int i = 0; i < 50; i++) {
+        for (int i = 0; i < 10; i++) {
             List<Edge> edgeList = new ArrayList<>();
 
             JSONObject jsonResponse = HTTPClient.readJsonFromUrl("https://fx.priceonomics.com/v1/rates/");
@@ -31,12 +36,14 @@ public class GraphTestIterative {
                 String v1 = keySplit[0];
                 String v2 = keySplit[1];
                 if (!v1.equals(v2)) {
-                    double weigth = Double.parseDouble(jsonResponse.get(key).toString());
-                    edgeList.add(new Edge(weigth, mapper.get(v1), mapper.get(v2)));
+                    double weight = Double.parseDouble(jsonResponse.get(key).toString());
+                    edgeList.add(new Edge(weight, mapper.get(v1), mapper.get(v2)));
                 }
             }
             ArbitrageConverterIterative algorithm = new ArbitrageConverterIterative(edgeList);
-            algorithm.findArbitrage(mapper.get("EUR"), 12);
+            algorithm.findArbitrage(mapper.get("USD"), 11.5);
+            System.out.println("Wait until data on Priceonomics is updated");
+            Thread.sleep(5000);
         }
     }
 

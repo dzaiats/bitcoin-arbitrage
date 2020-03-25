@@ -1,14 +1,19 @@
+package algorithms;
+
 import org.json.JSONObject;
 import org.junit.Test;
+import utils.Edge;
+import utils.HTTPClient;
+import utils.Vertex;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class GraphTest {
+public class ArbitrageConverterRecursiveTest {
     @Test
-    public void testGraphCanBeCreated() throws IOException {
+    public void findArbitrage() throws IOException {
         List<Vertex> vertexList = new ArrayList<>();
 
         vertexList.add(new Vertex("USD"));
@@ -35,7 +40,7 @@ public class GraphTest {
                     edgeList.add(new Edge(weigth, mapper.get(v1), mapper.get(v2)));
                 }
             }
-            ArbitrageConverter algorithm = new ArbitrageConverter(edgeList);
+            ArbitrageConverterRecursive algorithm = new ArbitrageConverterRecursive(edgeList);
             algorithm.findArbitrage(mapper.get("USD"), 1000);
         }
     }

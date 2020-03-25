@@ -1,13 +1,17 @@
+package algorithms;
+
+import utils.Edge;
+import utils.Vertex;
+
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
-public class BFAlgorithm {
+public class BellmanFord {
     private List<Vertex> vertexList;
     private List<Edge> edgeList;
     private List<List<Vertex>> cycleLists;
 
-    public BFAlgorithm(List<Edge> edgeList, List<Vertex> vertexList) {
+    public BellmanFord(List<Edge> edgeList, List<Vertex> vertexList) {
         this.vertexList = vertexList;
         this.edgeList = edgeList;
         this.cycleLists = new ArrayList<>();

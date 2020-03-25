@@ -1,3 +1,5 @@
+package utils;
+
 public class Edge {
     private double weight;
     private Vertex startVertex;
