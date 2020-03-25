@@ -36,7 +36,7 @@ public class GraphTest {
                 }
             }
             ArbitrageConverter algorithm = new ArbitrageConverter(edgeList);
-            algorithm.findArbitrage(mapper.get("USD"), 1);
+            algorithm.findArbitrage(mapper.get("USD"), 100);
         }
     }
 

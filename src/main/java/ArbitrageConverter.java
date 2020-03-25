@@ -11,6 +11,7 @@ public class ArbitrageConverter {
     private Vertex startVertex = null;
     private double startRate = -1;
     private boolean found = false;
+    private int cycles = 0;
 
     public ArbitrageConverter(List<Edge> edgeList) {
         this.listOfUsedCombinations = new LinkedList<>();
@@ -19,7 +20,8 @@ public class ArbitrageConverter {
     }
 
     public void findArbitrage(Vertex sourceVertex, double amountToConvert) {
-        if (!found) {
+        if (!found && cycles < 100) {
+            cycles ++;
             if (startVertex == null) {
                 startVertex = sourceVertex;
             }
@@ -30,7 +32,7 @@ public class ArbitrageConverter {
             Collections.shuffle(edgeList);
             for (Edge edge : edgeList) {
                 if (areRulesPassing(sourceVertex, edge)) {
-                    amountToConvert = amountToConvert * edge.getWeight();
+                    amountToConvert *= edge.getWeight();
                     chainedMap.put(new Edge(edge.getWeight(), sourceVertex, edge.getTargetVertex()), amountToConvert);
                     sourceVertex = edge.getTargetVertex();
 
@@ -45,8 +47,10 @@ public class ArbitrageConverter {
                             System.out.println("!=!=!=!=!=!=!=!=!=!=!=!=!=!=!=!=!=!=!=!=!=!=!=!=!=!=!=!=!=!");
                             System.out.println("\n\n");
                             found = true;
+                            cycles=0;
                         } else {
                             chainedMap.clear();
+                            listOfUsedCombinations.clear();
                             findArbitrage(startVertex, 1);
                         }
                     }
