@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class GraphTest {
+public class GraphTestIterative {
     @Test
     public void testGraphCanBeCreated() throws IOException {
         List<Vertex> vertexList = new ArrayList<>();
@@ -22,7 +22,7 @@ public class GraphTest {
                 "BTC", vertexList.get(3)
         );
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 50; i++) {
             List<Edge> edgeList = new ArrayList<>();
 
             JSONObject jsonResponse = HTTPClient.readJsonFromUrl("https://fx.priceonomics.com/v1/rates/");
@@ -35,8 +35,8 @@ public class GraphTest {
                     edgeList.add(new Edge(weigth, mapper.get(v1), mapper.get(v2)));
                 }
             }
-            ArbitrageConverter algorithm = new ArbitrageConverter(edgeList);
-            algorithm.findArbitrage(mapper.get("USD"), 1000);
+            ArbitrageConverterIterative algorithm = new ArbitrageConverterIterative(edgeList);
+            algorithm.findArbitrage(mapper.get("EUR"), 12);
         }
     }
 
