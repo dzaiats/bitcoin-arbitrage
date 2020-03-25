@@ -22,41 +22,22 @@ public class GraphTest {
                 "BTC", vertexList.get(3)
         );
 
-        List<Edge> edgeList = new ArrayList<>();
-//        //edgeList.add(new Edge(-1*Math.log(1.00), mapper.get("USD"),  mapper.get("USD")));
-//        edgeList.add(new Edge(-1*Math.log(0.7779),  mapper.get("USD"),  mapper.get("EUR")));
-//        edgeList.add(new Edge(-1*Math.log(102.4590),  mapper.get("USD"),  mapper.get("JPY")));
-//        edgeList.add(new Edge(-1*Math.log(0.0083),  mapper.get("USD"),  mapper.get("BTC")));
-//
-//        edgeList.add(new Edge(-1*Math.log(1.2851),  mapper.get("EUR"), mapper.get("USD")));
-//        //edgeList.add(new Edge(-1*Math.log(1.00), mapper.get("EUR"), mapper.get("EUR")));
-//        edgeList.add(new Edge(-1*Math.log(131.7110), mapper.get("EUR"), mapper.get("JPY")));
-//        edgeList.add(new Edge(-1*Math.log(0.01125), mapper.get("EUR"), mapper.get("BTC")));
-//
-//        edgeList.add(new Edge(-1*Math.log(0.0098), mapper.get("JPY"), mapper.get("USD")));
-//        edgeList.add(new Edge(-1*Math.log(0.0075), mapper.get("JPY"), mapper.get("EUR")));
-//        //edgeList.add(new Edge(-1*Math.log(1.00), mapper.get("JPY"), mapper.get("JPY")));
-//        edgeList.add(new Edge(-1*Math.log(0.0000811), mapper.get("JPY"), mapper.get("BTC")));
-//
-//        edgeList.add(new Edge(-1*Math.log(115.65), mapper.get("BTC"), mapper.get("USD")));
-//        edgeList.add(new Edge(-1*Math.log(88.8499), mapper.get("BTC"), mapper.get("EUR")));
-//        edgeList.add(new Edge(-1*Math.log(12325.44), mapper.get("BTC"), mapper.get("JPY")));
-//        //edgeList.add(new Edge(-1*Math.log(1.00), mapper.get("BTC"), mapper.get("BTC")));
+        for (int i = 0; i < 10; i++) {
+            List<Edge> edgeList = new ArrayList<>();
 
-        JSONObject jsonResponse = HTTPClient.readJsonFromUrl("https://fx.priceonomics.com/v1/rates/");
-        System.out.println(jsonResponse);
-        for (String key: jsonResponse.keySet()) {
-            String[] keySplit = key.split("_");
-            String v1 = keySplit[0];
-            String v2 = keySplit[1];
-            if (!v1.equals(v2)) {
-                edgeList.add(new Edge(Float.parseFloat(jsonResponse.get(key).toString()), mapper.get(v1), mapper.get(v2)));
+            JSONObject jsonResponse = HTTPClient.readJsonFromUrl("https://fx.priceonomics.com/v1/rates/");
+            for (String key : jsonResponse.keySet()) {
+                String[] keySplit = key.split("_");
+                String v1 = keySplit[0];
+                String v2 = keySplit[1];
+                if (!v1.equals(v2)) {
+                    double weigth = Double.parseDouble(jsonResponse.get(key).toString());
+                    edgeList.add(new Edge(weigth, mapper.get(v1), mapper.get(v2)));
+                }
             }
+            ArbitrageConverter algorithm = new ArbitrageConverter(edgeList);
+            algorithm.findArbitrage(mapper.get("USD"), 1);
         }
-
-        BFAlgorithm algorithm = new BFAlgorithm(edgeList, vertexList);
-        algorithm.findArbitrage(mapper.get("USD"));
-        algorithm.printCycle();
     }
 
 }

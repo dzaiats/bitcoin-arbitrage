@@ -40,7 +40,7 @@ public class BFAlgorithm {
                     while (!vertex.equals(edge.getTargetVertex())) {
                         cycleList.add(vertex);
                         vertex = vertex.getPreviousVertex();
-                        if (vertex == null) {
+                        if (vertex == null || edge.getTargetVertex().getName().equals(sourceVertex.getName())) {
                             break;
                         }
                     }
@@ -56,7 +56,7 @@ public class BFAlgorithm {
     }
 
     private boolean hasCycle(Edge edge) {
-        return (edge.getStartVertex().getMinDistance() + edge.getWeight()) > edge.getTargetVertex().getMinDistance();
+        return (edge.getStartVertex().getMinDistance() + edge.getWeight()) < edge.getTargetVertex().getMinDistance();
     }
 
     public void printCycle() {
