@@ -27,7 +27,7 @@ public class ArbitrageConverterIterativeTest {
                 "BTC", vertexList.get(3)
         );
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 1; i++) {
             List<Edge> edgeList = new ArrayList<>();
 
             JSONObject jsonResponse = HTTPClient.readJsonFromUrl("https://fx.priceonomics.com/v1/rates/");

@@ -4,6 +4,7 @@ import utils.Edge;
 import utils.Vertex;
 
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -26,13 +27,12 @@ public class ArbitrageConverterIterative {
         Vertex startVertex = sourceVertex;
         for (int i = 0; i < edgeList.size(); i++) {
             // If we want to see more different possible combinations - then we can shuffle this list.
-            //Collections.shuffle(edgeList);
+            Collections.shuffle(edgeList);
             for (Edge edge : edgeList) {
                 if (areRulesPassing(sourceVertex, edge)) {
                     amountToConvert *= edge.getWeight();
                     chainedMap.put(new Edge(edge.getWeight(), sourceVertex, edge.getTargetVertex()), amountToConvert);
                     sourceVertex = edge.getTargetVertex();
-
                     if (sourceVertex.getName().equals(startVertex.getName())) {
                         if (amountToConvert > startRate) {
                             System.out.println("Start amount: " + startRate);
