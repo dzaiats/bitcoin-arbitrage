@@ -7,11 +7,12 @@ https://priceonomics.com/jobs/puzzle/
 
 ### Using Bellman-Ford approach
 This approach is fully based on Vertexes and weights of Edges
-The complexity is O(VE), where V - the number of vertices and E is the number of edges.
+The complexity is O(V*E), where V - the number of vertices and E is the number of edges.
+It is practical to use on not big amount of data (not big graphs). Otherwise, the complexity will be following to O(V * V^2), or O(V^3)
 
 ### Using Iterative calculation
 This is approach is lightweight and fast and can be scaled for better accuracy
-In this case the complexity is O(log(N^2)), where N - is the number of elements in the list.
+In this case the complexity is O(N^2), where N - is the number of elements in the list. But this complexity is flexible and depends on the random data in our case. It means that Complexity will be always between O(2*N) and O(N^2) or O((N^2)/2)
 
 ### Using Recursive calculation
 This is approach is heavy but simple in implementation. Might cause StackOverflowError
