@@ -44,7 +44,7 @@ public class BellmanFord {
                     while (!vertex.equals(edge.getTargetVertex())) {
                         cycleList.add(vertex);
                         vertex = vertex.getPreviousVertex();
-                        if (vertex == null || edge.getTargetVertex().getName().equals(sourceVertex.getName())) {
+                        if (vertex == null || edge.getTargetVertex().getName().equals(sourceVertex.getName()) || cycleList.contains(vertex)) {
                             break;
                         }
                     }
