@@ -7,12 +7,15 @@ https://priceonomics.com/jobs/puzzle/
 
 ### Using Bellman-Ford approach
 This approach is fully based on Vertexes and weights of Edges
+The complexity is O(VE), where V - the number of vertices and E is the number of edges.
 
 ### Using Iterative calculation
 This is approach is lightweight and fast and can be scaled for better accuracy
+In this case the complexity is O(log(N^2)), where N - is the number of elements in the list.
 
 ### Using Recursive calculation
 This is approach is heavy but simple in implementation. Might cause StackOverflowError
+In case of recursive the complexity is not easy to calculate due to specific implementation but in our case it is O(2*N^2)
 
 ## How to run
 
